@@ -62,28 +62,21 @@ pip install chromadb langchain langchain-openai langchain-community langchain-te
 在项目根目录创建 `.env` 文件并填入凭证：
 
 ```ini
-# 阿里云百炼配置
-DASHSCOPE_API_KEY=sk-your-dashscope-api-key
-DASHSCOPE_API_URL=[https://dashscope.aliyuncs.com/compatible-mode/v1](https://dashscope.aliyuncs.com/compatible-mode/v1)
-DASHSCOPE_API_MODEL=qwen-plus
-DASHSCOPE_API_EMBEDDING_MODEL=text-embedding-v3
+# Deepseek
+DEEPSEEK_API_KEY='sk-密钥'
+DEEPSEEK_API_URL='https://api.deepseek.com'
+DEEPSEEK_API_MODEL='deepseek-chat'
 
-# DeepSeek 配置（可选）
-DEEPSEEK_API_KEY=sk-your-deepseek-api-key
-DEEPSEEK_API_URL=[https://api.deepseek.com](https://api.deepseek.com)
-DEEPSEEK_API_MODEL=deepseek-chat
+# 阿里云百炼
+DASHSCOPE_API_KEY='sk-密钥'
+DASHSCOPE_API_URL='https://llm-qwe2oxuia5qhvcmo.cn-beijing.maas.aliyuncs.com/compatible-mode/v1'
+DASHSCOPE_API_MODEL='qwen3.7-plus-2026-05-26' # 2026.9.1到期
 
-# 核心超参数配置
-CHUNK_SIZE=150
-CHUNK_OVERLAP=30
-BATCH_SIZE=10
-TOP_K=5
-TEMPERATURE=0.0
 ```
 
 ### 3. 准备知识库数据
 
-将目标文本文件放入 `DATA/` 目录，并确保 `config.py` 中的 `DATA_PATH` 路径正确：
+将目标文本文件（这里是[deepseek百度百科.txt](DATA/deepseek%E7%99%BE%E5%BA%A6%E7%99%BE%E7%A7%91.txt)）放入 `DATA/` 目录，并确保 `config.py` 中的 `DATA_PATH` 路径正确：
 
 ```python
 DATA_PATH = os.path.join(os.path.dirname(__file__), "DATA", "deepseek百度百科.txt")
