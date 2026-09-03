@@ -127,14 +127,32 @@ AI 回答：DeepSeek-R1 采用了大规模强化学习（RL）训练技术，在
 ---
 
 ## 常见问题排查 (Troubleshooting)
+深度思考
+```The user is asking for a bullet-point summary of the issues encountered: uvloop, missing python-dotenv, UnicodeDecodeError gbk. Each about 100 characters, plain text, including the problem and the solution.
+```
+1. **uvloop 安装失败**
+问题：执行 `pip install -r requirements.txt` 时报错 `RuntimeError: uvloop does not support Windows`，导致依赖安装中断。
+原因：uvloop 只支持 Linux/macOS，是从其他平台导出的依赖文件带进来的。解决办法：从 requirements.txt 中删除 `uvloop==0.22.1` 这一行，再重新安装，不影响 Windows 上运行。
 
-### 向量维度不匹配错误
+2. **缺少 python-dotenv 模块**
+问题：运行 `main.py` 报 `ModuleNotFoundError: No module named 'dotenv'`。
+原因：之前 uvloop 报错中断，导致后面的包没装全。解决办法：执行 `pip install python-dotenv`（注意包名是 python-dotenv，不是 dotenv），或重新完整安装 requirements。
+
+3. **读取文件编码报错**
+问题：运行时出现 `UnicodeDecodeError: 'gbk' codec can't decode...`。
+原因：Windows 上 open() 默认用 GBK 编码，而 `deepseek百度百科.txt` 是 UTF-8 保存的，编码不匹配。解决办法：在 `document_loader.py` 中改为 `open(file_path, 'r', encoding='utf-8')`，显式指定编码。
+
+
+4. **向量维度不匹配错误**
 - **报错信息**：`Collection expecting embedding with dimension of X, got Y`
 - **产生原因**：更换了 Embedding 模型（例如从 1536 维切换至 1024 维），但旧的 ChromaDB 持久化文件依然保留了原维度的集合定义。
 - **解决方案**：清空持久化目录后重新运行程序重建索引：
   ```bash
   rm -rf DATA/CHROMA_DATA
   ```
+5. **vpn影响访问github**
+问题：无法访问github，fatal: unable to access 'https://github.com/renduermai/RAG-ChromaDB.git/': Failed to connect to github.com port 443 via 127.0.0.1 after 2117 ms: Could not connect to server
+原因：访问github需要打开vpn，并设置到全局模式。在pip 的时候要关闭vpn
 
 ---
 
