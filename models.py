@@ -4,6 +4,7 @@
 
 import os
 from dotenv import load_dotenv
+from config import BATCH_SIZE
 
 load_dotenv()
 
@@ -96,6 +97,8 @@ def get_ali_embeddings(model=DASHSCOPE_API_EMBEDDING_MODEL):
     """通过LangChain获得一个阿里通义千问嵌入模型的实例"""
     return DashScopeEmbeddings(
         model=model,
-        dashscope_api_key=DASHSCOPE_API_KEY
+        dashscope_api_key=DASHSCOPE_API_KEY,
+        # chunk_size=BATCH_SIZE
+
     )
 

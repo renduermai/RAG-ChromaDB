@@ -24,7 +24,7 @@
 | **Embedding** | DashScope Embeddings | `text-embedding-v3`              |
 | **LLM** | 通义千问 Qwen / DeepSeek | `qwen-plus` / `deepseek-chat`    |
 | **Splitter** | LangChain Text Splitters | `RecursiveCharacterTextSplitter` |
-| **Runtime** | Python | 3.11                             |
+| **Runtime** | Python | 3.11.9                           |
 
 ---
 
