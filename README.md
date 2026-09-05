@@ -46,6 +46,17 @@
 ├── .env                   # 环境变量配置文件（敏感凭证）
 └── requirements.txt       # 项目依赖清单
 ```
+---
+
+## 分支说明
+
+仓库目前维护两个并行分支，对应代码演进的两个阶段：
+
+| 分支 | 说明 | 实现方式 |
+| :--- | :--- | :--- |
+| `main` | **原始版本**（手写实现） | 手写 `open()` 文件读取、手写分批向量化、原生 chromadb API、手写 Prompt 拼装 |
+| `feature/langchain-refactor` | **LangChain 重构版** | `TextLoader` 加载、`langchain_chroma.Chroma` 存储、`ChatPromptTemplate` + LCEL 链式问答 |
+
 
 ---
 
