@@ -1,4 +1,4 @@
-from config import DATA_PATH
+from config import DATA_PATH, CHUNK_SIZE, CHUNK_OVERLAP, SEPARATORS
 from langchain_community.document_loaders import TextLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
@@ -66,9 +66,9 @@ class DocumentLoader:
         """
 
         splitter = RecursiveCharacterTextSplitter(
-            chunk_size=300,
-            chunk_overlap=50,
-            separators=["\n", "\n\n", ",", ".", "。", "?", "!"]
+            chunk_size=CHUNK_SIZE,
+            chunk_overlap=CHUNK_OVERLAP,
+            separators=SEPARATORS
         )
 
         chunk = splitter.split_text(document)

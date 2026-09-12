@@ -1,6 +1,8 @@
 # 目标(客户视角)
 # 接受文件--向量化,存储,检索--提问回答--多次问,退出
-import document_loader
+
+# import document_loader                      # 【修改点1】注释掉原导入
+import document_loader_ext                    # 【修改点1】改为导入扩展模块
 import llm_client
 import vector_store
 
@@ -11,7 +13,7 @@ class RagPipeline:
 
     def __init__(self):
         "备齐管线其他函数所需要的工具"
-        self.document_loader = document_loader.DocumentLoader()
+        self.document_loader = document_loader_ext.DocumentLoaderExt()  # 【修改点2】换用扩展类
         self.vector_store = vector_store.VectorStore()
         self.llm = llm_client.LLMClient()
 

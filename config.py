@@ -6,7 +6,7 @@ load_dotenv()
 
 # ======================文件存储路径======================
 # 数据文件路径
-DATA_PATH = os.path.join(os.path.dirname(__file__),"DATA","deepseek百度百科.txt")
+DATA_PATH = os.path.join(os.path.dirname(__file__),"DATA","deepseek百度百科.pdf") # 更改文件类型这里也要改
 
 # chromaDB持久化路径
 CHROMA_PATH =os.path.join(os.path.dirname(__file__),"DATA","CHROMA_DATA")
@@ -17,6 +17,9 @@ DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY","")
 DASHSCOPE_API_URL = os.getenv("DASHSCOPE_API_URL","")
 DASHSCOPE_API_MODEL = os.getenv("DASHSCOPE_API_MODEL","")
 DASHSCOPE_API_EMBEDDING_MODEL = os.getenv("DASHSCOPE_API_EMBEDDING_MODEL","")
+# 【新增】视觉大模型(给image_reader模块用)
+DASHSCOPE_API_VL_MODEL = os.getenv("DASHSCOPE_API_VL_MODEL","")
+
 
 # DeepSeek
 DEEPSEEK_API_KEY = os.getenv("DEEPSEEK_API_KEY","")
