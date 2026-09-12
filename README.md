@@ -5,6 +5,25 @@
 系统将本地文档切分、向量化后存入 ChromaDB 向量数据库；问答时先检索最相关的文档片段，再交给大模型生成基于知识库的回答，有效避免模型“凭空编造”内容。
 
 ---
+## 版本迭代
+**【v1.0版本:main】**：
+
+- 模块化构建Naive RAG。构建pipeline，实现各模块，基本不依赖框架
+
+**【v1.1版本:feature/langchain-refactor】**:
+
+- langchain模块优化代码。用langchain精简架构（删去embedding_client）,替换模块。建议直接看v1.2版本
+
+**【v1.2版本:wechat_4_steps_langchain_RAG】**:
+
+- 注释优化代码。功能和v1.1一致。更详细注释，标记易错点。可搭配公众号食用：小新的转行日记，有整理好的常用langchain模块和参数等
+
+**【v1.3版本:wechat_4_steps_langchain_RAG_more_type】**:
+
+- 支持多文档格式。在v1.2基础上，通过增加子类和图片识别模块（子类document_loader_ext.py），从只支持txt到支持pdf，docx，png格式，优化.env和models.py模块代码和注释（新增视觉api），无需单独下载ocr软件。使用不同文档需要更改config中的文件名，document_loader.py中chunk_size等参数直接引用config中参数。
+
+
+---
 
 ## 功能特性
 
