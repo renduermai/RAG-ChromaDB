@@ -4,8 +4,8 @@
 # 解决什么问题:
 #  - 原 document_loader 只支持 .txt,本模块在不改动原代码的前提下
 #    新增 .pdf / .doc / .docx / .jpeg / .jpg 等格式识别
-#
-# 核心思路:
+
+
 # 核心思路:
 #  - 建一张"后缀名 → 加载器"映射表(LOADER_TABLE)
 #  - 继承原 DocumentLoader,只重写 file_read() 一个方法:
