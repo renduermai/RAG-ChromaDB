@@ -91,6 +91,12 @@ DASHSCOPE_API_KEY='sk-密钥'
 DASHSCOPE_API_URL='https://llm-qwe2oxuia5qhvcmo.cn-beijing.maas.aliyuncs.com/compatible-mode/v1'
 DASHSCOPE_API_MODEL='qwen3.7-plus-2026-05-26' # 2026.9.1到期
 
+# 视觉模型
+# 【新增】视觉大模型(用于jpeg/jpg图片OCR文字识别,和上面同一个平台同一个key)
+# 注意：视觉模型≠文生图模型，具体模型能不能用可以问问千问，视觉模型一般名字含vl
+DASHSCOPE_API_VL_MODEL='qwen3.5-ocr' # 2026.9.14到期
+
+
 ```
 
 ### 3. 准备知识库数据
