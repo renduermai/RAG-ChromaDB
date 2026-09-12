@@ -12,7 +12,7 @@
 
 **【v1.1版本:feature/langchain-refactor】**:
 
-- langchain模块优化代码。用langchain精简架构（删去embedding_client）,替换模块。建议直接看v1.2版本
+- langchain模块优化代码。用langchain精简架构（删去embedding_client）,替换模块，统一输入输出格式，便于后期扩展其他功能。建议直接看v1.2版本
 
 **【v1.2版本:wechat_4_steps_langchain_RAG】**:
 
