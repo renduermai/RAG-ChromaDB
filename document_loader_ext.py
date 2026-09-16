@@ -4,8 +4,7 @@
 # 解决什么问题:
 #  - 原 document_loader 只支持 .txt,本模块在不改动原代码的前提下
 #    新增 .pdf / .doc / .docx / .jpeg / .jpg 等格式识别
-#
-# 核心思路:
+
 # 核心思路:
 #  - 建一张"后缀名 → 加载器"映射表(LOADER_TABLE)
 #  - 继承原 DocumentLoader,只重写 file_read() 一个方法:
@@ -28,9 +27,7 @@ from langchain_community.document_loaders import PyPDFLoader
 
 # word 加载器:读取 .docx / .doc 文本
 from langchain_community.document_loaders import Docx2txtLoader
-
-# 图片加载器:对图片做OCR文字识别,把图片里的文字读出来
-from langchain_community.document_loaders import UnstructuredImageLoader
+from langchain_community.document_loaders import TextLoader
 
 
 # ======================图片格式清单(新增图片格式=改这里)======================
@@ -45,7 +42,8 @@ IMAGE_EXTS = [".jpeg", ".jpg",".png"]
 LOADER_TABLE = {
     ".pdf":  PyPDFLoader,           # pdf 文档
     ".doc":  Docx2txtLoader,         # word 老格式
-    ".docx": Docx2txtLoader,         # word 新格式
+    ".docx": Docx2txtLoader,
+    ".md": TextLoader  # markdown 格式
 
 }
 
