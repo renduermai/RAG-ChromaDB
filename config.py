@@ -36,5 +36,9 @@ BATCH_SIZE = int(os.getenv("BATCH_SIZE","10")) # 防止 API 限流
 TOP_K = int(os.getenv("TOP_K","5"))
 TEMPERATURE = float(os.getenv("TEMPERATURE","0")) # 温度
 
+# ====================== 混合检索设置 ======================
+BM25_WEIGHT = float(os.getenv("BM25_WEIGHT","0.5")) # BM25的融合权重,向量权重=1-BM25_WEIGHT
+
+
 # ====================== 集合名称 ======================
 COLLECTION_NAME = "demo"

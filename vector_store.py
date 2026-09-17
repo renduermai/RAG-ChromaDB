@@ -89,3 +89,49 @@ class VectorStore:
         )
         doc = [doc.page_content for doc in docs]
         return doc
+
+
+# ====================== 新增:混合检索需要的两个方法 ======================
+
+    def embed_query(self, question):
+        "把问题单独向量化(不检索)"
+        """
+        解决什么问题:
+         - 混合检索需要对问题单独算一个向量,用于和全量文档向量算距离
+         - 不再重复调检索接口,只取向量化结果
+
+        输入:
+         - question:用户问题
+
+        输出:
+         - query_embedding:问题的向量(list)
+
+        用了什么模块:
+         - self.store._embedding_function:Chroma初始化时传入的向量化模型,直接复用
+         - embed_query():langchain向量化模型的向量化单个文本的函数
+        """
+        return self.store._embedding_function.embed_query(question)
+
+    def get_all_docs_and_vectors(self):
+        "读出向量数据库中的全部文档文本和向量"
+        """
+        解决什么问题:
+         - 混合检索需要对全量语料打分(BM25和向量各打一遍),而不是只取top_k
+         - 向量已经在入库时算好,直接从库里读,不重复调embedding API
+
+        输入:
+         - 无
+
+        输出:
+         - documents:全部文档文本的列表(list)
+         - embeddings:全部文档向量的列表(list)
+
+        用了什么模块:
+         - self.store.get():Chroma模块,按条件取出collection中的数据
+         - include:指定同时返回文档内容(documents)和向量(embeddings)
+
+        注意:
+         - 文档顺序与ingest时切块顺序一致(add_document默认按0,1,2...生成id顺序入库)
+        """
+        result = self.store.get(include=["documents", "embeddings"])
+        return result["documents"], result["embeddings"]
