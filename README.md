@@ -22,7 +22,9 @@
 
 - 支持多文档格式。在v1.2基础上，通过增加子类和图片识别模块（子类document_loader_ext.py），从只支持txt到支持pdf，docx，png格式，优化.env和models.py模块代码和注释（新增视觉api），无需单独下载ocr软件。使用不同文档需要更改config中的文件名，document_loader.py中chunk_size等参数直接引用config中参数。
 
+**【v1.4版本:RAG_hybrid_search_more_type_1】**:
 
+- 从naiveRAG升级为AdvanceRAG。用bm25和向量检索组成混合检索，基于v1.3版本，具有连贯性。该版本已跑通，但暂未用langchain模块替换所有代码，后续版本会统一使用langchian模块；并且当前版本对pdf解析乱码，以及英文单词大小写会影响bm25打分结果这个问题未修复，将在下个版本修复
 ---
 
 ## 功能特性
