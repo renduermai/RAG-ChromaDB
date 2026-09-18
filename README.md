@@ -25,6 +25,11 @@
 **【v1.4版本:RAG_hybrid_search_more_type_1】**:
 
 - 从naiveRAG升级为AdvanceRAG。用bm25和向量检索组成混合检索，基于v1.3版本，具有连贯性。该版本已跑通，但暂未用langchain模块替换所有代码，后续版本会统一使用langchian模块；并且当前版本对pdf解析乱码，以及英文单词大小写会影响bm25打分结果这个问题未修复，将在下个版本修复
+
+**【v1.5版本:RAG_hybrid_search_more_type_2】**:
+
+- 解决提问和文档中英文大小写问题、解决pdf汉字乱码解析错误。
+
 ---
 
 ## 功能特性
