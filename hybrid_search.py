@@ -21,6 +21,19 @@ import jieba
 
 from config import TOP_K, BM25_WEIGHT
 
+import re
+
+def tokenize(text):
+    "统一分词函数:语料和问题必须走同一套规则,词面才能对上"
+    # 1.英文统一转小写:jieba只负责切词不管大小写,
+    #   不加这句,语料里的 "DeepSeek" 和问题里的 "deepseek" 是两个不同的词
+    text = text.lower()
+    tokens = jieba.lcut(text)
+    # 2.中文二字兜底:人名等新词在问题/语料里jieba切法可能不一致,
+    #   补充相邻二字组合(周鸿/鸿祎),保证词面匹配不丢
+    for seg in re.findall(r"[\u4e00-\u9fff]+", text):
+        tokens.extend(seg[i:i + 2] for i in range(len(seg) - 1))
+    return tokens
 
 class BM25Retriever:
     "BM25全文检索模块:基于关键词匹配的检索"
@@ -44,7 +57,8 @@ class BM25Retriever:
         """
         self.chunks = chunks
         # 文档分词:BM25需要把文本拆成词,才能统计词频等信息
-        self.tokenized_corpus = [jieba.lcut(doc) for doc in chunks]
+        # self.tokenized_corpus = [jieba.lcut(doc) for doc in chunks]
+        self.tokenized_corpus = [tokenize(doc) for doc in chunks]
         # 初始化BM25对象,一次性算好全部文档的统计信息
         self.bm25 = BM25Okapi(self.tokenized_corpus)
 
@@ -67,7 +81,8 @@ class BM25Retriever:
          - np.array + max/min:归一化到[0,1]
         """
         # 问题分词
-        tokenized_query = jieba.lcut(query)
+        # tokenized_query = jieba.lcut(query)
+        tokenized_query = tokenize(query)
         # BM25打分
         scores = np.array(self.bm25.get_scores(tokenized_query))
         # 归一化到[0,1]: (分数-最低分)/(最高分-最低分)

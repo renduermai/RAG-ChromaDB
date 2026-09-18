@@ -15,6 +15,8 @@
 
 
 import os
+import re
+import unicodedata
 
 from config import DATA_PATH
 from document_loader import DocumentLoader
@@ -29,6 +31,25 @@ from langchain_community.document_loaders import PyPDFLoader
 from langchain_community.document_loaders import Docx2txtLoader
 from langchain_community.document_loaders import TextLoader
 
+# ======================文本净化(新增:解决PDF提取出"假汉字"的问题)======================
+# 解决什么问题:
+#  - 百度百科等网页导出的PDF,提取出的"示/月/人/网/方/面/支/力/十/大/高/金"等字
+#    实际是"康熙部首"兼容字符(码点U+2F00~U+2FDF,肉眼几乎一样),
+#    例如"表⽰"的⽰是U+2F70,不是普通的"示"(U+793A)
+#    后果:jieba分词错乱("周鸿祎表⽰"被切成"周鸿祎表"+"⽰"),BM25词面对不上导致漏检,
+#    向量化和喂给大模型的文本也带脏字符
+#  - 文本里还夹着 \x01 等控制字符
+# 做法:
+#  - NFKC规范化:兼容字符还原为标准汉字(⽰->示,⽉->月,⼈->人),顺带全角转半角
+#  - 正则去掉控制字符,保留 \n \t \r(切块还要靠换行)
+_CONTROL_CHARS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f]")
+
+
+def clean_text(text):
+    "净化加载器提取的文本:兼容字符还原 + 去控制字符"
+    text = unicodedata.normalize("NFKC", text)
+    text = _CONTROL_CHARS.sub("", text)
+    return text
 
 # ======================图片格式清单(新增图片格式=改这里)======================
 # 解决什么问题:
@@ -97,14 +118,14 @@ class DocumentLoaderExt(DocumentLoader):
 
         # 分支1:图片格式 -> 走视觉大模型OCR(新增的唯一分支)
         if ext in IMAGE_EXTS:
-            return self.image_reader.read(self.file_path)
-
+            # return self.image_reader.read(self.file_path)
+            return clean_text(self.image_reader.read(self.file_path))
         # 分支2:命中映射表 -> pdf/word 走对应的langchain加载器
         if ext in LOADER_TABLE:
             documents = LOADER_TABLE[ext](self.file_path).load()
             # 有的格式读取结果是多页/多段,合并成一整段文本字符串
-            return "\n".join(doc.page_content for doc in documents)
-
+            # return "\n".join(doc.page_content for doc in documents)
+            return clean_text("\n".join(doc.page_content for doc in documents))
         # 分支3:其余格式(如txt)走父类原有逻辑,一行不改
         return super().file_read()
 
